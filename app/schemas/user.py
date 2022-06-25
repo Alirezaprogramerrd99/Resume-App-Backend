@@ -52,6 +52,8 @@ class UserState(BaseModel):
 class PasswordOP(BaseModel):
     email: EmailStr
 
+
+
 # ---------- Main types -------------------------
 
 class UserBase(UserMain, GeneralInfo, UserState):
