@@ -13,7 +13,7 @@ from sqlalchemy.orm import Session
 from app.core.config import settings
 from pydantic.types import UUID4
 from app.models.resume import ManagementHistory, InternationalInteraction,\
-    InterdisciplinaryInteraction, Project, Network, Organization
+    InterdisciplinaryInteraction, Project, Network, Organization, FieldOfStudy, Expertise
 from app.core import email, storage, cache
 from sqlalchemy import or_, and_
 
@@ -68,7 +68,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         db.add(user_db_obj)
         db.commit()
         db.refresh(user_db_obj)
-        return
+        return user_db_obj
 
     def create_admin(
         self,
@@ -204,13 +204,23 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
                     Project.employer.like(f"%{word}%"))
             ).with_entities(Project.user_id).all()
 
+
+            users_7 = db.query(FieldOfStudy).filter(
+                FieldOfStudy.title.like(f"%{word}%")
+            ).with_entities(FieldOfStudy.user_id).all()
+
+            users_8 = db.query(Expertise).filter(
+                Expertise.title.like(f"%{word}%")
+            ).with_entities(Expertise.user_id).all()
+
             users = [*users_1, *users_2, *users_3,
-                     *users_4, *users_5, *users_6]
+                     *users_4, *users_5, *users_6, 
+                     *users_7, *users_8]
+
             users = list(set(users))
             users = [str(u[0]) for u in users]
 
-            if len(users):
-                queryset = queryset.filter(User.id.in_(users))
+            queryset = queryset.filter(User.id.in_(users))
 
         # pagination
         skip = (page - 1) * page_size

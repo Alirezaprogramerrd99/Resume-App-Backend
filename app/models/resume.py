@@ -120,3 +120,38 @@ class Organization(Base):
     )
 
     user = relationship("User")
+
+
+
+class Expertise(Base):
+    __tablename__ = "expertises"
+    id = Column(
+        UUID(as_uuid=True), primary_key=True, default=uuid4
+    )
+    title = Column(String(100), index=True)
+
+    user_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("users.id"),
+        primary_key=True,
+        nullable=True,
+    )
+
+    user = relationship("User")
+
+
+class FieldOfStudy(Base):
+    __tablename__ = "field_of_studies"
+    id = Column(
+        UUID(as_uuid=True), primary_key=True, default=uuid4
+    )
+    title = Column(String(100), index=True)
+
+    user_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("users.id"),
+        primary_key=True,
+        nullable=True,
+    )
+
+    user = relationship("User")

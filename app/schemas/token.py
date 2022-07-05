@@ -9,8 +9,8 @@ class Token(BaseModel):
 # class Login(BaseModel):
 
 class Login(Token):
-    access_token: str
-    token_type: str
+    # access_token: str
+    # token_type: str
     role: Role
 
     class Config:

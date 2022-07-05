@@ -1,12 +1,13 @@
 from app.crud.base import CRUDBase
 from app.models import Project, InterdisciplinaryInteraction, \
-    Network, InternationalInteraction, ManagementHistory, Organization
+    Network, InternationalInteraction, ManagementHistory, Organization, Expertise , FieldOfStudy
 from app.schemas import ProjectCreate, ProjectUpdate,\
     InterdisciplinaryInteractionCreate, InterdisciplinaryInteractionUpdate,\
     NetworkCreate, NetworkUpdate,\
     InternationalInteractionCreate, InternationalInteractionUpdate,\
     ManagementHistoryCreate, ManagementHistoryUpdate,\
-    OrganizationCreate, OrganizationUpdate
+    OrganizationCreate, OrganizationUpdate, ExpertiseCreate,\
+         ExpertiseUpdate, FieldOfStudyCreate , FieldOfStudyUpdate
 from sqlalchemy.orm import Session
 from pydantic.types import UUID4
 
@@ -20,7 +21,6 @@ class CRUDProject(CRUDBase[Project, ProjectCreate, ProjectUpdate]):
         for obj in objs:
             db.delete(obj)
             db.commit()
-            print(obj)
         return
 
 
@@ -39,7 +39,6 @@ class CRUDInterdisciplinaryInteraction(
         for obj in objs:
             db.delete(obj)
             db.commit()
-            print(obj)
         return
 
 
@@ -52,7 +51,6 @@ class CRUDNetwork(CRUDBase[Network, NetworkCreate, NetworkUpdate]):
         for obj in objs:
             db.delete(obj)
             db.commit()
-            print(obj)
         return
 
 
@@ -71,7 +69,6 @@ class CRUDInternationalInteraction(
         for obj in objs:
             db.delete(obj)
             db.commit()
-            print(obj)
         return
 
 
@@ -90,7 +87,6 @@ class CRUDManagementHistory(
         for obj in objs:
             db.delete(obj)
             db.commit()
-            print(obj)
         return
 
 
@@ -109,7 +105,43 @@ class CRUDOrganization(
         for obj in objs:
             db.delete(obj)
             db.commit()
-            print(obj)
+        return
+
+
+
+class CRUDExpertise(
+        CRUDBase[
+            Expertise,
+            ExpertiseCreate,
+            ExpertiseUpdate
+        ]):
+    def get_by_user_id(self, db: Session, user_id: UUID4):
+        return db.query(Expertise)\
+            .filter(Expertise.user_id == user_id).all()
+
+    def remove_by_user_id(self, db: Session, user_id: UUID4):
+        objs = self.get_by_user_id(db, user_id)
+        for obj in objs:
+            db.delete(obj)
+            db.commit()
+        return
+
+
+class CRUDFieldOfStudy(
+        CRUDBase[
+            FieldOfStudy,
+            FieldOfStudyCreate,
+            FieldOfStudyUpdate,
+        ]):
+    def get_by_user_id(self, db: Session, user_id: UUID4):
+        return db.query(FieldOfStudy)\
+            .filter(FieldOfStudy.user_id == user_id).all()
+
+    def remove_by_user_id(self, db: Session, user_id: UUID4):
+        objs = self.get_by_user_id(db, user_id)
+        for obj in objs:
+            db.delete(obj)
+            db.commit()
         return
 
 
@@ -121,3 +153,7 @@ management_history = CRUDManagementHistory(ManagementHistory)
 network = CRUDNetwork(Network)
 organization = CRUDOrganization(Organization)
 project = CRUDProject(Project)
+
+
+expertise =  CRUDExpertise(Expertise)
+field_of_study =  CRUDFieldOfStudy(FieldOfStudy)

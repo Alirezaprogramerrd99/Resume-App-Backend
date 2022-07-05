@@ -1,8 +1,10 @@
+# from turtle import title
 from typing import Any
 
 from app import crud, schemas
 from sqlalchemy.orm import Session
 from app.core import storage
+from app.models.resume import Expertise
 from jdatetime import date as jdate
 import jdatetime
 import datetime
@@ -18,6 +20,8 @@ def delete_resume(
     crud.network.remove_by_user_id(db, user_id=user_id)
     crud.management_history.remove_by_user_id(db, user_id=user_id)
     crud.organization.remove_by_user_id(db, user_id=user_id)
+    crud.expertise.remove_by_user_id(db, user_id=user_id)
+    crud.field_of_study.remove_by_user_id(db, user_id=user_id)
 
 
 def create_resume(
@@ -27,20 +31,20 @@ def create_resume(
 ) -> Any:
     user = crud.user.get(db, id=user_id)
 
-    user_in = schemas.UserUpdate(
-        email=obj_in.email,
-        is_active=True,
-        phone_number=obj_in.phone_number,
-        first_name=obj_in.first_name,
-        last_name=obj_in.last_name,
-        profile_image=obj_in.profile_image,
-        gender=obj_in.gender,
-        field_of_study_id=obj_in.field_of_study_id,
-        grade_id=obj_in.grade_id,
-        expertise_id=obj_in.expertise_id,
-        college_id=obj_in.college_id,
-    )
-    crud.user.update(db, db_obj=user, obj_in=user_in)
+    # user_in = schemas.UserUpdate(
+    #     email=obj_in.email,
+    #     is_active=True,
+    #     phone_number=obj_in.phone_number,
+    #     first_name=obj_in.first_name,
+    #     last_name=obj_in.last_name,
+    #     profile_image=obj_in.profile_image,
+    #     gender=obj_in.gender,
+    #     field_of_study_id=obj_in.field_of_study_id,
+    #     grade_id=obj_in.grade_id,
+    #     expertise_id=obj_in.expertise_id,
+    #     college_id=obj_in.college_id,
+    # )
+    # crud.user.update(db, db_obj=user, obj_in=user_in)
 
     for ii in obj_in.international_interactions:
         obj = schemas.InternationalInteractionCreate(
@@ -72,11 +76,13 @@ def create_resume(
         crud.management_history.create(db, obj_in=obj)
 
     for project in obj_in.projects:
-        year = int(project.date[0:4])
-        month = int(project.date[5:7])
-        day = int(project.date[8:10])
-        gdate = jdatetime.JalaliToGregorian(jyear=year, jmonth=month, jday=day)
-        date = datetime.datetime(
+        date = None
+        if project.date not in ["" , None]:
+            year = int(project.date[0:4])
+            month = int(project.date[5:7])
+            day = int(project.date[8:10])
+            gdate = jdatetime.JalaliToGregorian(jyear=year, jmonth=month, jday=day)
+            date = datetime.datetime(
             year=gdate.gyear,
             month=gdate.gmonth,
             day=gdate.gday,
@@ -101,10 +107,26 @@ def create_resume(
         )
         crud.organization.create(db, obj_in=obj)
 
+    for field_of_study in obj_in.field_of_studies:
+        obj = schemas.FieldOfStudyCreate(
+            title=field_of_study.title,
+            user_id=user_id
+        )
+        crud.field_of_study.create(db, obj_in=obj)
+    
+    for expertise in obj_in.expertises:
+        obj = schemas.ExpertiseCreate(
+            title=expertise.title,
+            user_id=user_id
+        )
+        crud.expertise.create(db, obj_in=obj)
+
     user = crud.user.get(db, id=user_id)
+
     # user.profile_image = storage.get_object_url(
     #     user.profile_image
     # )
+
     user_resume = schemas.UserResume(
         international_interactions=obj_in.international_interactions,
         interdisciplinary_interactions=obj_in.interdisciplinary_interactions,
@@ -112,6 +134,10 @@ def create_resume(
         networks=obj_in.networks,
         management_histories=obj_in.management_histories,
         organizations=obj_in.organizations,
+
+        # added...
+        field_of_study = obj_in.field_of_studies,
+        expertise = obj_in.expertises,
         user=user,
     )
     return user_resume
@@ -184,8 +210,27 @@ def get_resume(db: Session, user_id):
             organization_name=org.organization_name,
         )
         new_organizations.append(item)
+    
+    field_of_studies = crud.field_of_study.get_by_user_id(db, user_id=user_id)
+    new_field_of_studies = []
+
+    for field_of_study in field_of_studies:
+        item = schemas.FieldOfStudyResumeCreate(
+            title = field_of_study.title
+        )
+        new_field_of_studies.append(item)
+
+    expertises = crud.field_of_study.get_by_user_id(db, user_id=user_id)
+    new_expertises = []
+
+    for exp in expertises:
+        item = schemas.ExpertiseResumeCreate(
+            title = exp.title
+        )
+        new_expertises.append(item)
 
     user = crud.user.get(db, id=user_id)
+
     user_resume = schemas.UserResume(
         international_interactions=new_international_interactions,
         interdisciplinary_interactions=new_interdisciplinary_interactions,
@@ -193,6 +238,9 @@ def get_resume(db: Session, user_id):
         networks=new_networks,
         management_histories=new_managements,
         organizations=new_organizations,
+        field_of_studies = new_field_of_studies,
+        expertises = new_expertises,
         user=user,
     )
+
     return user_resume

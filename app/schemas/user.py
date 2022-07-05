@@ -3,7 +3,7 @@ from typing import List, Optional
 
 from app.schemas.role import Role
 from app.schemas.general_information import College,\
-    Expertise, FieldOfStudy, Grade
+    Grade
 from app.schemas.permission import Permission
 from pydantic import UUID4, BaseModel, EmailStr
 from app.schemas.pagination import  Pagination
@@ -24,9 +24,7 @@ class GeneralInfo(BaseModel):
 
 class GeneralID(BaseModel):
     grade_id: Optional[UUID4] = None
-    field_of_study_id: Optional[UUID4] = None
     college_id: Optional[UUID4] = None
-    expertise_id: Optional[UUID4] = None
 
 
 class PermissionRoleIDBase(BaseModel):
@@ -51,8 +49,6 @@ class UserState(BaseModel):
 
 class PasswordOP(BaseModel):
     email: EmailStr
-
-
 
 # ---------- Main types -------------------------
 
@@ -157,8 +153,6 @@ class UserInDBBase(UserBase, DBTimeBase):
     # id: UUID4
     # role: Optional[Role]
     college: Optional[College]
-    expertise: Optional[Expertise]
-    field_of_study: Optional[FieldOfStudy]
     grade: Optional[Grade]
 
     # created_at: datetime
