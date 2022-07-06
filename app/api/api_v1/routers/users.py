@@ -69,7 +69,10 @@ def create_user(
             status_code=Error.USER_EXIST_ERROR["code"],
             detail=Error.USER_EXIST_ERROR["text"],
         )
+
+    # returns object model of user role in order to access roleId of role 'user'.
     role = crud.role.get_by_name(db, name=Role.USER["name"])
+    # now using role object model, we create a user with role id of a 'user'.
     user = crud.user.create_user(db, obj_in=user_in, role_id=role.id)
     return user
 

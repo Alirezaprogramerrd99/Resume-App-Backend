@@ -110,14 +110,14 @@ def create_resume(
     for field_of_study in obj_in.field_of_studies:
         obj = schemas.FieldOfStudyCreate(
             title=field_of_study.title,
-            user_id=user_id
+            # user_id=user_id
         )
         crud.field_of_study.create(db, obj_in=obj)
     
     for expertise in obj_in.expertises:
         obj = schemas.ExpertiseCreate(
             title=expertise.title,
-            user_id=user_id
+            # user_id=user_id
         )
         crud.expertise.create(db, obj_in=obj)
 

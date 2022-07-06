@@ -245,7 +245,7 @@ class OrganizationInDB(OrganizationInDBBase):
 #----------------------------------------------------------
 #------------------- FieldOfStudy -------------------------
 
-class FieldOfStudyBase(TitleIDBase):
+class FieldOfStudyBase(TitleBase):
     pass
 
 # Properties to receive via API on creation
@@ -274,7 +274,7 @@ class FieldOfStudyInDB(FieldOfStudyInDBBase):
 
 
 #------------------ Expertise---------------------------------
-class ExpertiseBase(TitleIDBase):
+class ExpertiseBase(TitleBase):
     pass
 
 
