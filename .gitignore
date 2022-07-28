@@ -149,3 +149,5 @@ postgres_data
 .mnt*
 mnt*
 ./mnt*
+
+*.xlsx

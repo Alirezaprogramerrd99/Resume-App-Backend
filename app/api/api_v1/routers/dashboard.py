@@ -119,7 +119,6 @@ def get_user_register(
 
             count = crud.user.get_user_count_between_dates(
                 db, g_start_date, g_end_date)
-            print(g_end_date)
 
             response.append({
                 "month": i,

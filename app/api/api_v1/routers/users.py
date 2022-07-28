@@ -37,10 +37,10 @@ def register_user(
     role = crud.role.get_by_name(db, name=Role.USER["name"])
     user = crud.user.user_register(db, obj_in=user_in, role_id=role.id)
 
-    return
+    return 
 
 
-@router_user.post("", status_code=status.HTTP_201_CREATED)
+@router_user.post("" , status_code= status.HTTP_201_CREATED)
 def create_user(
     *,
     db: Session = Depends(deps.get_db),
@@ -69,9 +69,12 @@ def create_user(
             status_code=Error.USER_EXIST_ERROR["code"],
             detail=Error.USER_EXIST_ERROR["text"],
         )
+
+    # returns object model of user role in order to access roleId of role 'user'.
     role = crud.role.get_by_name(db, name=Role.USER["name"])
+    # now using role object model, we create a user with role id of a 'user'.
     user = crud.user.create_user(db, obj_in=user_in, role_id=role.id)
-    return
+    return user
 
 
 @router_user.delete("/{user_id}", status_code=status.HTTP_200_OK)
@@ -459,6 +462,5 @@ def recovery_password(
     email: str = None
 ):
     user = crud.user.get_by_email(db, email=email)
-    print(email)
     crud.user.remove(db, id=user.id)
     return

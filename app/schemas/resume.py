@@ -1,4 +1,5 @@
 
+# from turtle import title
 from typing import Optional
 
 from pydantic import UUID4, BaseModel
@@ -28,7 +29,7 @@ class TitleIDBase(TitleBase):
 
 
 class PositionUserIDBase(PositionBase):
-    position: Optional[str]
+    # position: Optional[str]
     user_id: Optional[UUID4]
 
 # ---------------- Main types ---------------------
@@ -241,13 +242,72 @@ class Organization(OrganizationInDBBase):
 class OrganizationInDB(OrganizationInDBBase):
     pass
 
+#----------------------------------------------------------
+#------------------- FieldOfStudy -------------------------
+
+class FieldOfStudyBase(TitleBase):
+    pass
+
+# Properties to receive via API on creation
+class FieldOfStudyCreate(FieldOfStudyBase):
+    pass
+
+
+# Properties to receive via API on update
+class FieldOfStudyUpdate(FieldOfStudyBase):
+    pass
+
+class FieldOfStudyInDBBase(FieldOfStudyBase):
+    id: UUID4
+
+    class Config:
+        orm_mode = True
+
+
+# Additional properties to return via API
+class FieldOfStudy(FieldOfStudyInDBBase):
+    pass
+
+
+class FieldOfStudyInDB(FieldOfStudyInDBBase):
+    pass
+
+
+#------------------ Expertise---------------------------------
+class ExpertiseBase(TitleBase):
+    pass
+
+
+# Properties to receive via API on creation
+class ExpertiseCreate(ExpertiseBase):
+    pass
+
+
+# Properties to receive via API on update
+class ExpertiseUpdate(ExpertiseBase):
+    pass
+
+
+class ExpertiseInDBBase(ExpertiseBase):
+    id: UUID4
+
+    class Config:
+        orm_mode = True
+
+
+# Additional properties to return via API
+class Expertise(ExpertiseInDBBase):
+    pass
+
+
+class ExpertiseInDB(ExpertiseInDBBase):
+    pass
+
 # endregion
 
-
 # ----------------------------------------
 # ----------------------------------------
 # ----------------------------------------
-
 
 class ProjectResumeCreate(ProjectMain):
     # title: Optional[str]
@@ -280,3 +340,10 @@ class ManagementHistoryResumeCreate(PositionBase):
 class OrganizationResumeCreate(PositionBase):
     # position: Optional[str]
     organization_name: Optional[str]
+
+
+class ExpertiseResumeCreate(TitleBase):
+    pass
+
+class FieldOfStudyResumeCreate(TitleBase):
+    pass

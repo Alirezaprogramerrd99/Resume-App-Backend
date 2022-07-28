@@ -1,6 +1,6 @@
 from app.api.api_v1.routers import auth, roles, \
     users, file, permissions, dashboard,\
-    general_information, user_resume
+    general_information, user_resume , data_import
 from fastapi import APIRouter
 
 
@@ -15,3 +15,4 @@ api_router.include_router(file.router)
 api_router.include_router(general_information.router)
 api_router.include_router(user_resume.router)
 api_router.include_router(dashboard.router)
+api_router.include_router(data_import.router)

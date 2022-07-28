@@ -31,11 +31,6 @@ class User(Base):
         onupdate=datetime.datetime.utcnow,
     )
 
-    field_of_study_id = Column(
-        UUID(as_uuid=True),
-        ForeignKey("field_of_studies.id"),
-        nullable=True,
-    )
     grade_id = Column(
         UUID(as_uuid=True),
         ForeignKey("grades.id"),
@@ -47,25 +42,15 @@ class User(Base):
         ForeignKey("colleges.id"),
         nullable=True,
     )
-    expertise_id = Column(
-        UUID(as_uuid=True),
-        ForeignKey("expertises.id"),
-        nullable=True,
-    )
-
     role_id = Column(
         UUID(as_uuid=True),
         ForeignKey("roles.id"),
         nullable=True,
     )
 
-    field_of_study = relationship(
-        "FieldOfStudy", back_populates="user")
     grade = relationship("Grade", back_populates="user")
     college = relationship(
         "College", back_populates="user")
-    expertise = relationship(
-        "Expertise", back_populates="user")
 
     role = relationship(
         "Role", back_populates="user")
@@ -83,3 +68,5 @@ class User(Base):
     management_history = relationship(
         "ManagementHistory", back_populates="user")
     organization = relationship("Organization", back_populates="user")
+    field_of_study = relationship("FieldOfStudy", back_populates="user")
+    expertise = relationship("Expertise", back_populates="user")

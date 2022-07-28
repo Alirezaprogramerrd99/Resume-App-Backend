@@ -6,18 +6,14 @@ from .permission import Permission, PermissionCreate, \
 from .token import Token, TokenPayload, Login
 from .user import User, UserCreate, UserInDB, UserUpdate, UserRegister,\
     AdminCreate, Admin, AdminUpdate, AdminUpdateMe, UserBase, ForgetPassword, ChangePassword,\
-    AdminGetMe, UserApiSchema , AdminApiSchema
+    AdminGetMe, UserApiSchema, AdminApiSchema
 from .user_permission import UserPermission, UserPermissionCreate, \
     UserPermissionInDB, UserPermissionUpdate
 
 from .general_information import College, CollegeCreate, \
     CollegeUpdate, CollegeInDB,\
-    Expertise, ExpertiseCreate, ExpertiseUpdate, ExpertiseInDB,\
-    FieldOfStudy, FieldOfStudyCreate, FieldOfStudyUpdate, FieldOfStudyInDB,\
-    Grade, GradeCreate, GradeUpdate, GradeInDB , CollegeApiSchema , FieldOfStudyApiSchema,\
-        GradeApiSchema  , ExpertiseApiSchema
-
-
+    Grade, GradeCreate, GradeUpdate, GradeInDB, CollegeApiSchema,\
+    GradeApiSchema
 
 
 from .resume import InterdisciplinaryInteraction, InterdisciplinaryInteractionCreate,\
@@ -31,9 +27,11 @@ from .resume import InterdisciplinaryInteraction, InterdisciplinaryInteractionCr
     Organization, OrganizationCreate, OrganizationUpdate, OrganizationInDB,\
     NetworkResumeCreate, ProjectResumeCreate, OrganizationResumeCreate, \
     InternationalInteractionResumeCreate, ManagementHistoryResumeCreate,\
-    InterdisciplinaryInteractionResumeCreate
+    InterdisciplinaryInteractionResumeCreate, Expertise,\
+    ExpertiseCreate, ExpertiseUpdate, FieldOfStudy,\
+    FieldOfStudyCreate, FieldOfStudyUpdate, ExpertiseResumeCreate, FieldOfStudyResumeCreate
 
 from .user_resume import UserResume, UserResumeCreate, UserResumeUpdate
 
 
-from .dashboard import UserGender, UserGrade , DashboardUserRegisterIn
+from .dashboard import UserGender, UserGrade, DashboardUserRegisterIn

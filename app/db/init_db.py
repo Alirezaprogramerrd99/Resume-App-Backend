@@ -8,19 +8,6 @@ from sqlalchemy.orm import Session
 
 def init_db(db: Session) -> None:
 
-    # Create 1st Superuser
-    # Create Role If They Don't Exist
-
-    # Guest role
-    # note that get_by_name is in crud_role file
-    guest_role = crud.role.get_by_name(db, name=Role.GUEST["name"])
-    if not guest_role:
-        guest_role_in = schemas.RoleCreate(
-            name=Role.GUEST["name"],
-            description=Role.GUEST["description"],
-            persian_name=Role.GUEST["persian_name"]
-        )
-        crud.role.create(db, obj_in=guest_role_in)
 
     # Super Admin role
     super_admin_role = crud.role.get_by_name(db, name=Role.SUPER_ADMIN["name"])
@@ -61,17 +48,6 @@ def init_db(db: Session) -> None:
         crud.role.create(db, obj_in=user_role_in)
 
     # Assistant role
-    assistant_role = crud.role.get_by_name(
-        db, name=Role.ASSISTANT["name"]
-    )
-    if not assistant_role:
-        assistant_role_in = schemas.RoleCreate(
-            name=Role.ASSISTANT["name"],
-            description=Role.ASSISTANT["description"],
-            persian_name=Role.ASSISTANT["persian_name"]
-        )
-        crud.role.create(db, obj_in=assistant_role_in)
-
     bachelor_grade = crud.grade.get_by_name(db, name=Grade.BACHELOR["name"])
     if not bachelor_grade:
         bachelor_grade_in = schemas.GradeCreate(
