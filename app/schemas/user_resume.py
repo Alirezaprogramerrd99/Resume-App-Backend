@@ -3,7 +3,7 @@ from typing import List, Optional
 from app.schemas.resume import InterdisciplinaryInteractionResumeCreate, \
     InternationalInteractionResumeCreate, ProjectResumeCreate,\
     NetworkResumeCreate, ExpertiseCreate , FieldOfStudyCreate ,\
-    ManagementHistoryResumeCreate, OrganizationResumeCreate
+    ManagementHistoryResumeCreate, OrganizationResumeCreate, ExpertiseResumeCreate, FieldOfStudyResumeCreate
 
 from app.schemas.user import UserMain, GeneralInfo, GeneralID
 
@@ -19,8 +19,8 @@ class UserResumeMain(BaseModel):
     networks: List[NetworkResumeCreate]
     management_histories: List[ManagementHistoryResumeCreate]
     organizations: List[OrganizationResumeCreate]
-    expertises: List[ExpertiseCreate]
-    field_of_studies: List[FieldOfStudyCreate]
+    expertises: List[ExpertiseResumeCreate]
+    field_of_studies: List[FieldOfStudyResumeCreate]
 
 
 class UserResumeBase(UserMain, GeneralInfo, GeneralID, UserResumeMain):
@@ -73,3 +73,4 @@ class UserResume(UserResumeInDBBase):
 
 class UserResumeInDB(UserResumeInDBBase):
     pass
+

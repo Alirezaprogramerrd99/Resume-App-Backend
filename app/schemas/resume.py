@@ -249,7 +249,7 @@ class FieldOfStudyBase(TitleBase):
     pass
 
 # Properties to receive via API on creation
-class FieldOfStudyCreate(FieldOfStudyBase):
+class FieldOfStudyCreate(TitleIDBase):
     pass
 
 
@@ -279,7 +279,7 @@ class ExpertiseBase(TitleBase):
 
 
 # Properties to receive via API on creation
-class ExpertiseCreate(ExpertiseBase):
+class ExpertiseCreate(TitleIDBase):
     pass
 
 
